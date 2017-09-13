@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PlayerJump : MonoBehaviour {
 
+    // TODO remove singleton
     public static PlayerJump instance;
 
     private Rigidbody2D rigidbody2D;
@@ -19,6 +21,11 @@ public class PlayerJump : MonoBehaviour {
 
     private bool setPower, didJump;
 
+    private Slider powerBar;
+    private float powerBarThreshold = 10f;
+    private float powerBarValue = 0f;
+    
+
     private void Awake()
     {
         MakeInstance();
@@ -32,8 +39,14 @@ public class PlayerJump : MonoBehaviour {
 
     void Initialize()
     {
+        powerBar = GameObject.Find("Power Find").GetComponent<Slider>();
         rigidbody2D = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
+        powerBar.minValue = 0f;
+        powerBar.maxValue = 10f;
+        powerBar.value = powerBarValue;
+
     }
 
     void MakeInstance()
@@ -63,6 +76,10 @@ public class PlayerJump : MonoBehaviour {
             {
                 forceY = 13.5f;
             }
+
+            powerBarValue = powerBarThreshold * Time.deltaTime;
+            powerBar.value = powerBarValue;
+
         }
     }
 
@@ -82,8 +99,13 @@ public class PlayerJump : MonoBehaviour {
         rigidbody2D.velocity = new Vector2(forceX, forceY);
         // Reset force values
         forceX = forceY = 0;
-
+        
         didJump = true;
+        // start jump anim
+        anim.SetBool("Jump", didJump);
+
+        powerBarValue = 0f;
+        powerBar.value = powerBarValue;
 
     }
 
@@ -95,14 +117,33 @@ public class PlayerJump : MonoBehaviour {
         {
             didJump = false;
 
+            // stop jump anim
+            anim.SetBool("Jump", didJump);
+
             if (collision.tag == "Platform")
             {
+                collision.gameObject.tag = "Untagged";
+                Debug.Log("Collided with platform");
                 if (GameManager.instance != null)
                 {
                     //lerp to player position and create new platform
                     GameManager.instance.CreateNewPlatformAndLerp(transform.position.x);
                 }
+
+                if (ScoreManager.instance != null)
+                {
+                    ScoreManager.instance.IncrementScore();
+                }
             }
+        }
+
+        if (collision.tag == "Enemy")
+        {
+            if (GameOverManager.instance != null)
+            {
+                GameOverManager.instance.GameOverShowPanel();
+            }
+            Destroy(gameObject);
         }
     }
 }

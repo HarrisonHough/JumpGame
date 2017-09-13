@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+    // TODO properly enforce singleton
     public static GameManager instance;
 
     [SerializeField]
@@ -25,6 +26,14 @@ public class GameManager : MonoBehaviour {
     {
         MakeInstance();
         CreateInitialPlatforms();
+    }
+
+    private void LateUpdate()
+    {
+        if (lerpCamera)
+        {
+            LerpTheCamera();
+        }
     }
 
     void MakeInstance()
@@ -53,6 +62,20 @@ public class GameManager : MonoBehaviour {
         tempPosition = new Vector3(Random.Range(maxX, maxX - 1.2f), Random.Range(minY, maxY), 0);
 
         Instantiate(platformPrefab, tempPosition, Quaternion.identity);
+    }
+
+    void LerpTheCamera()
+    {
+        float x = Camera.main.transform.position.x;
+
+        x = Mathf.Lerp(x, lerpX, lerpTime * Time.deltaTime);
+
+        Camera.main.transform.position = new Vector3(x, Camera.main.transform.position.y, Camera.main.transform.position.z);
+
+        if (Camera.main.transform.position.x >= (lerpX - 0.07f))
+        {
+            lerpCamera = false;
+        }
     }
 
     public void CreateNewPlatformAndLerp(float lerpPosition)

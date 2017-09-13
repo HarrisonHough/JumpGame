@@ -1,11 +1,11 @@
 fileFormatVersion: 2
 guid: 2dc090c54668a674ab5b24101cc7d9d4
-timeCreated: 1505263919
+timeCreated: 1505279794
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Platform_0
-    21300002: Platform_1
+    21300000: UI Power Front
+    21300002: UI Power Back
     21300004: Platform
   serializedVersion: 4
   mipmaps:
@@ -86,7 +86,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Platform_0
+      name: UI Power Front
       rect:
         serializedVersion: 2
         x: 8
@@ -100,7 +100,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Platform_1
+      name: UI Power Back
       rect:
         serializedVersion: 2
         x: 29
