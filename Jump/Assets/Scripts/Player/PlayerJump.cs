@@ -39,10 +39,11 @@ public class PlayerJump : MonoBehaviour {
 
     void Initialize()
     {
-        powerBar = GameObject.Find("Power Find").GetComponent<Slider>();
+        powerBar = GameObject.Find("Power Bar").GetComponent<Slider>();
         rigidbody2D = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
 
+        // Set power slider values
         powerBar.minValue = 0f;
         powerBar.maxValue = 10f;
         powerBar.value = powerBarValue;
@@ -77,7 +78,7 @@ public class PlayerJump : MonoBehaviour {
                 forceY = 13.5f;
             }
 
-            powerBarValue = powerBarThreshold * Time.deltaTime;
+            powerBarValue += powerBarThreshold * Time.deltaTime;
             powerBar.value = powerBarValue;
 
         }

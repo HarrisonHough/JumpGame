@@ -300,7 +300,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 2.43, y: 19}
+  m_AnchoredPosition: {x: 2.4300003, y: 19}
   m_SizeDelta: {x: 402.82, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &87237558
@@ -343,9 +343,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 70488920}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 10
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -769,7 +769,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.66833806, y: -0.39865732}
+  m_Offset: {x: 3.0520964, y: -0.39865732}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -780,7 +780,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 11.576145, y: 0.20268536}
+  m_Size: {x: 12.723883, y: 0.20268536}
   m_EdgeRadius: 0
 --- !u!1 &1140141511
 GameObject:
@@ -1601,8 +1601,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0, g: 0.5448277, b: 1, a: 0.103}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_HighlightedColor: {r: 0, g: 0, b: 0, a: 0.109}
+    m_PressedColor: {r: 0.039738316, g: 0.13569748, b: 0.77205884, a: 0.103}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
