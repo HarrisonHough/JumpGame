@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// 
+/// </summary>
 public class GameOverManager : MonoBehaviour {
 
     // TODO remove singleton 
@@ -17,6 +20,9 @@ public class GameOverManager : MonoBehaviour {
     private GameObject scoreText;
     private Text finalScore;
 
+    /// <summary>
+    /// 
+    /// </summary>
     private void Awake()
     {
         MakeInstance();
@@ -36,6 +42,9 @@ public class GameOverManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public void GameOverShowPanel()
     {
         // TODO clean up
@@ -45,6 +54,9 @@ public class GameOverManager : MonoBehaviour {
         gameOverAnim.Play("FadeIn");
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     void Initialize()
     {
 
@@ -64,11 +76,17 @@ public class GameOverManager : MonoBehaviour {
         gameOverPanel.SetActive(false);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public void PlayAgain()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public void BackToMenu()
     {
         SceneManager.LoadScene("MainMenu");
