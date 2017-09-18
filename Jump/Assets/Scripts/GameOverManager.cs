@@ -7,10 +7,10 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// 
 /// </summary>
-public class GameOverManager : MonoBehaviour {
+public class GameOverManager : Singleton<GameOverManager> {
 
     // TODO remove singleton 
-    public static GameOverManager instance;
+    //public static GameOverManager instance;
 
     private GameObject gameOverPanel;
     private Animator gameOverAnim;
@@ -25,21 +25,7 @@ public class GameOverManager : MonoBehaviour {
     /// </summary>
     private void Awake()
     {
-        MakeInstance();
         Initialize();
-    }
-
-    // TODO CLean this up
-    void MakeInstance()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(this);
-        }
     }
 
     /// <summary>
@@ -50,7 +36,7 @@ public class GameOverManager : MonoBehaviour {
         // TODO clean up
         scoreText.SetActive(false);
         gameOverPanel.SetActive(true);
-        finalScore.text = "Score\n" + "" + ScoreManager.instance.GetScore();
+        finalScore.text = "Score\n" + "" + ScoreManager.Instance.GetScore();
         gameOverAnim.Play("FadeIn");
     }
 

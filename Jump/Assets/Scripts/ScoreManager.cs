@@ -2,33 +2,46 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class ScoreManager : MonoBehaviour {
 
-    public static ScoreManager instance;
+/// <summary>
+/// 
+/// </summary>
+public class ScoreManager : Singleton<ScoreManager> {
+
+    //public static ScoreManager instance;
 
     private Text scoreText;
 
     // TODO make this private and have a public one for easy getter
     private int score;
 
+    /// <summary>
+    /// 
+    /// </summary>
     private void Awake()
     {
-        MakeInstance();
+        //MakeInstance();
         scoreText = GameObject.Find("Score Text").GetComponent<Text>();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     void MakeInstance()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-
-        }
+        //if (instance == null)
+        //{
+        //    instance = this;
+       // }
+       // else
+       // {
+//
+      //  }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public void IncrementScore()
     {
         score++;

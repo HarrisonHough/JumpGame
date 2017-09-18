@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour {
+/// <summary>
+/// 
+/// </summary>
+public class GameManager : Singleton<GameManager> {
 
     // TODO properly enforce singleton
     public static GameManager instance;
@@ -22,12 +25,18 @@ public class GameManager : MonoBehaviour {
     private float lerpTime = 1.5f;
     private float lerpX;
 
+    /// <summary>
+    /// 
+    /// </summary>
     private void Awake()
     {
-        MakeInstance();
         CreateInitialPlatforms();
     }
 
+    /// <summary>
+    /// Update called every frame after physics calculations and 
+    /// object transformation updates. 
+    /// </summary>
     private void LateUpdate()
     {
         if (lerpCamera)
@@ -36,18 +45,11 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    void MakeInstance()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(this);
-        }
-    }
 
+
+    /// <summary>
+    /// 
+    /// </summary>
     void CreateInitialPlatforms()
     {
         Vector3 tempPosition = new Vector3(Random.Range(minX, minX + 1.2f), Random.Range(minY, maxY), 0);
@@ -64,6 +66,9 @@ public class GameManager : MonoBehaviour {
         Instantiate(platformPrefab, tempPosition, Quaternion.identity);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     void LerpTheCamera()
     {
         float x = Camera.main.transform.position.x;
@@ -78,6 +83,10 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="lerpPosition"></param>
     public void CreateNewPlatformAndLerp(float lerpPosition)
     {
         CreateNewPlatform();
@@ -85,6 +94,9 @@ public class GameManager : MonoBehaviour {
         lerpCamera = true;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     void CreateNewPlatform()
     {
         float cameraX = Camera.main.transform.position.x;

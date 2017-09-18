@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/// <summary>
+/// 
+/// </summary>
 public class PlayerJump : MonoBehaviour {
 
     // TODO remove singleton
@@ -21,25 +24,39 @@ public class PlayerJump : MonoBehaviour {
 
     private bool setPower, didJump;
 
+    [SerializeField]
     private Slider powerBar;
     private float powerBarThreshold = 10f;
     private float powerBarValue = 0f;
     
 
+    /// <summary>
+    /// 
+    /// </summary>
     private void Awake()
     {
         MakeInstance();
         Initialize();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     private void Update()
     {
         SetPower();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     void Initialize()
     {
-        powerBar = GameObject.Find("Power Bar").GetComponent<Slider>();
+        // Check if assigned
+        if(powerBar == null)
+            powerBar = GameObject.Find("Power Bar").GetComponent<Slider>();
+        
+        // Get component references
         rigidbody2D = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
 
@@ -50,6 +67,9 @@ public class PlayerJump : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     void MakeInstance()
     {
         if (instance == null)
@@ -62,31 +82,37 @@ public class PlayerJump : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     void SetPower()
     {
+        // SetPower true if player holding down jump button
         if (setPower)
         {
+            // Increase force over time
             forceX += thresholdX * Time.deltaTime;
             forceY += thresholdY * Time.deltaTime;
 
-            if (forceX > 6.5f)
-            {
-                forceX = 6.5f;
-            }
-            if (forceY > 13.5f)
-            {
-                forceY = 13.5f;
-            }
+            //Limit force
+            forceX = Mathf.Clamp(forceX, 0f, 6.5f);
+            forceY = Mathf.Clamp(forceY, 0f, 13.5f);
 
+            // Increase power bar value
             powerBarValue += powerBarThreshold * Time.deltaTime;
+            // Update power bar value
             powerBar.value = powerBarValue;
 
         }
     }
 
-    public void SetPower(bool setPower)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="setPower"></param>
+    public void SetPower(bool setPowerOn)
     {
-        this.setPower = setPower;
+        setPower = setPowerOn;
 
         if (!setPower)
         {
@@ -94,6 +120,9 @@ public class PlayerJump : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     void Jump()
     {
         // Apply force jump
@@ -105,45 +134,49 @@ public class PlayerJump : MonoBehaviour {
         // start jump anim
         anim.SetBool("Jump", didJump);
 
+        // Reset Power Bar values
         powerBarValue = 0f;
         powerBar.value = powerBarValue;
 
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         
         // If jumping check for landing
         if (didJump)
         {
+
             didJump = false;
 
             // stop jump anim
             anim.SetBool("Jump", didJump);
 
+            // Check for platform collision / landing
             if (collision.tag == "Platform")
             {
+                //change to untagged to prevent adding score from landing on the same platform twice
                 collision.gameObject.tag = "Untagged";
-                Debug.Log("Collided with platform");
-                if (GameManager.instance != null)
-                {
-                    //lerp to player position and create new platform
-                    GameManager.instance.CreateNewPlatformAndLerp(transform.position.x);
-                }
 
-                if (ScoreManager.instance != null)
-                {
-                    ScoreManager.instance.IncrementScore();
-                }
+                //Debug.Log("Collided with platform");
+
+                // Create new platform and move camera to new position
+                GameManager.instance.CreateNewPlatformAndLerp(transform.position.x);
+                // Add to score
+                ScoreManager.Instance.IncrementScore();
+ 
             }
         }
 
+        // Check for collision with danger / enemy
         if (collision.tag == "Enemy")
         {
-            if (GameOverManager.instance != null)
-            {
-                GameOverManager.instance.GameOverShowPanel();
-            }
+            GameOverManager.Instance.GameOverShowPanel();
+
             Destroy(gameObject);
         }
     }
