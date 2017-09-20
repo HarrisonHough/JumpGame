@@ -1,20 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 
 /// </summary>
 public class GameManager : Singleton<GameManager> {
 
-    // TODO properly enforce singleton
-    public static GameManager instance;
+    public int Score { get { return scoreManager.Score; } }
 
     [SerializeField]
     private GameObject playerPrefab;
+    private GameObject player;
+
+    [SerializeField]
+    private ScoreManager scoreManager;
+    
 
     [SerializeField]
     private GameObject platformPrefab;
+
+    [SerializeField]
+    private GameUIController gameUIControl;
 
     private float minX = -2.5f;
     private float maxX = 2.5f;
@@ -29,8 +37,23 @@ public class GameManager : Singleton<GameManager> {
     /// 
     /// </summary>
     private void Awake()
-    {
+    {        
         CreateInitialPlatforms();
+    }
+
+    private void Start()
+    {
+        if (scoreManager == null)
+        {
+            scoreManager = FindObjectOfType<ScoreManager>();
+            
+        }
+
+        if (gameUIControl == null)
+        {
+            gameUIControl = FindObjectOfType<GameUIController>();
+        }
+
     }
 
     /// <summary>
@@ -104,5 +127,40 @@ public class GameManager : Singleton<GameManager> {
 
         Instantiate(platformPrefab, new Vector3(Random.Range(newMaxX, newMaxX - 1.2f), Random.Range(maxY, maxY - 1.2f), 0), Quaternion.identity);
 
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void GameOver()
+    {
+        // Show game over UI
+        gameUIControl.ShowGameOverPanel();
+        // Update score
+        gameUIControl.UpdateFinalScore("Score\n" + "" + Score);
+
+        // Hide Player
+        //player.SetActive(false);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void PlayAgain()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void IncrementScore()
+    {
+        scoreManager.IncrementScore();
     }
 }

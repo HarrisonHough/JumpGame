@@ -3,22 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// 
+/// </summary>
 public class JumpButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler {
 
-    public void OnPointerDown(PointerEventData data)
+    // Store reference to playerJump;
+    [SerializeField]
+    private PlayerJump playerJump;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void Start()
     {
-        if (PlayerJump.instance != null)
+        // Check for null reference
+        if (playerJump = null)
         {
-            PlayerJump.instance.SetPower(true);
+            playerJump = FindObjectOfType<PlayerJump>();
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="data"></param>
+    public void OnPointerDown(PointerEventData data)
+    {
+        playerJump.SetPower(true);
+        
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="data"></param>
     public void OnPointerUp(PointerEventData data)
     {
-        if (PlayerJump.instance != null)
-        {
-            PlayerJump.instance.SetPower(false);
-        }
+        playerJump.SetPower(true);
     }
 
 }

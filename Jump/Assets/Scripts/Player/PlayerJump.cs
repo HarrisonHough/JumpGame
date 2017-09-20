@@ -9,9 +9,6 @@ using UnityEngine.UI;
 /// </summary>
 public class PlayerJump : MonoBehaviour {
 
-    // TODO remove singleton
-    public static PlayerJump instance;
-
     private Rigidbody2D rigidbody2D;
     private Animator anim;
 
@@ -35,7 +32,6 @@ public class PlayerJump : MonoBehaviour {
     /// </summary>
     private void Awake()
     {
-        MakeInstance();
         Initialize();
     }
 
@@ -65,21 +61,6 @@ public class PlayerJump : MonoBehaviour {
         powerBar.maxValue = 10f;
         powerBar.value = powerBarValue;
 
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    void MakeInstance()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(this);
-        }
     }
 
     /// <summary>
@@ -165,9 +146,9 @@ public class PlayerJump : MonoBehaviour {
                 //Debug.Log("Collided with platform");
 
                 // Create new platform and move camera to new position
-                GameManager.instance.CreateNewPlatformAndLerp(transform.position.x);
+                GameManager.Instance.CreateNewPlatformAndLerp(transform.position.x);
                 // Add to score
-                ScoreManager.Instance.IncrementScore();
+                GameManager.Instance.IncrementScore();
  
             }
         }
@@ -175,9 +156,9 @@ public class PlayerJump : MonoBehaviour {
         // Check for collision with danger / enemy
         if (collision.tag == "Enemy")
         {
-            GameOverManager.Instance.GameOverShowPanel();
+            GameManager.Instance.GameOver();
 
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 }

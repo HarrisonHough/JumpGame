@@ -6,14 +6,12 @@ using UnityEngine.UI;
 /// <summary>
 /// 
 /// </summary>
-public class ScoreManager : Singleton<ScoreManager> {
-
-    //public static ScoreManager instance;
+public class ScoreManager : MonoBehaviour {
 
     private Text scoreText;
 
-    // TODO make this private and have a public one for easy getter
     private int score;
+    public int Score { get { return score; } }
 
     /// <summary>
     /// 
@@ -27,31 +25,15 @@ public class ScoreManager : Singleton<ScoreManager> {
     /// <summary>
     /// 
     /// </summary>
-    void MakeInstance()
-    {
-        //if (instance == null)
-        //{
-        //    instance = this;
-       // }
-       // else
-       // {
-//
-      //  }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
     public void IncrementScore()
     {
         score++;
         scoreText.text = "" + score;
     }
 
-    // TODO clean this up
-    public int GetScore()
+    public void ResetScore()
     {
-        return this.score;
+        score = 0;
     }
 
 }
