@@ -1,3 +1,5 @@
+![Featured Screenshot: Asteroids](http://harrisonhough.com/wp-content/uploads/2017/09/Jump-game.png)
+
 # Jump Game
 A simple 2D platform game made in Unity 3D
 

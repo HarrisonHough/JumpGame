@@ -8,9 +8,11 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class MainMenuController : MonoBehaviour {
 
-    //TODO add in editor editing of which scene to load
+    [SerializeField]
+    private string sceneToLoad;
+
     public void PlayGame()
     {
-        SceneManager.LoadScene("Gameplay");
+        SceneManager.LoadScene(sceneToLoad);
     }
 }

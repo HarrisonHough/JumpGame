@@ -16,10 +16,15 @@ public class GameManager : Singleton<GameManager> {
 
     [SerializeField]
     private ScoreManager scoreManager;
+    [SerializeField]
+    private PlatformManager platformManager;
     
 
     [SerializeField]
     private GameObject platformPrefab;
+
+    private GameObject[] platformArray;
+    private float platformIndex;
 
     [SerializeField]
     private GameUIController gameUIControl;
@@ -37,8 +42,10 @@ public class GameManager : Singleton<GameManager> {
     /// 
     /// </summary>
     private void Awake()
-    {        
-        CreateInitialPlatforms();
+    {
+        player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+        //CreateAllPlatforms();
+        //CreateInitialPlatforms();
     }
 
     private void Start()
@@ -54,6 +61,7 @@ public class GameManager : Singleton<GameManager> {
             gameUIControl = FindObjectOfType<GameUIController>();
         }
 
+        platformManager.SpawnPlatformWithPlayer(player);
     }
 
     /// <summary>
@@ -69,6 +77,13 @@ public class GameManager : Singleton<GameManager> {
     }
 
 
+    void CreateAllPlatforms()
+    {
+        platformManager.CreatePlatformArray();
+        platformManager.SpawnPlatformWithPlayer(player);
+        platformManager.SpawnPlatform();
+
+    }
 
     /// <summary>
     /// 
@@ -78,6 +93,22 @@ public class GameManager : Singleton<GameManager> {
         Vector3 tempPosition = new Vector3(Random.Range(minX, minX + 1.2f), Random.Range(minY, maxY), 0);
 
         Instantiate(platformPrefab, tempPosition, Quaternion.identity );
+
+        // adjust position for player
+        tempPosition.y += 2f;
+        // create player
+        Instantiate(playerPrefab, tempPosition, Quaternion.identity);
+
+        tempPosition = new Vector3(Random.Range(maxX, maxX - 1.2f), Random.Range(minY, maxY), 0);
+
+        Instantiate(platformPrefab, tempPosition, Quaternion.identity);
+    }
+
+    void CreateInitialPlatformsOLD()
+    {
+        Vector3 tempPosition = new Vector3(Random.Range(minX, minX + 1.2f), Random.Range(minY, maxY), 0);
+
+        Instantiate(platformPrefab, tempPosition, Quaternion.identity);
 
         // adjust position for player
         tempPosition.y += 2f;
@@ -112,7 +143,8 @@ public class GameManager : Singleton<GameManager> {
     /// <param name="lerpPosition"></param>
     public void CreateNewPlatformAndLerp(float lerpPosition)
     {
-        CreateNewPlatform();
+        //CreateNewPlatform();
+        platformManager.SpawnPlatform();
         lerpX = lerpPosition + maxX;
         lerpCamera = true;
     }
